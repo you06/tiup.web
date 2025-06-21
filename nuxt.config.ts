@@ -8,10 +8,5 @@ export default defineNuxtConfig({
         '@nuxt/fonts',
         '@nuxt/icon',
         '@nuxt/ui',
-    ],
-    nitro: {
-        experimental: {
-            websocket: true,
-        },
-    }
+    ]
 })

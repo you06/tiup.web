@@ -1,4 +1,4 @@
-import { exec } from '~/server/utils/await_callback'
+import { oneshot } from '~/server/utils/exec'
 import  { AsyncMemCache } from '~/server/utils/cache'
 
 const VALID_DURATION = 1000 * 60 * 60 // 1 hour
@@ -11,7 +11,7 @@ const LTS_PREFIX = [
 ]
 
 const versionsCache = new AsyncMemCache(VALID_DURATION, async () => {
-    return new TiupVersions(await exec('tiup list tidb'))
+    return new TiupVersions(await oneshot('tiup list tidb'))
 })
 
 export default defineEventHandler(async (event) => {

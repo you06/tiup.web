@@ -10,8 +10,7 @@ export class AsyncMemCache<T> {
     }
 
     async getValue(): Promise<T> {
-        const curr = new Date()
-        if (this.value && this.expiredAt && curr < this.expiredAt) {
+        if (this.value && this.expiredAt && new Date() < this.expiredAt) {
             return this.value;
         }
         const value = await this.asyncLoadFn();
