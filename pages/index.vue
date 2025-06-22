@@ -1,5 +1,5 @@
 <template>
-    <h1>Index page</h1>
+    <div id="toolbar">Toolbar Placeholder</div>
     <XTerm />
 </template>
 
@@ -17,3 +17,11 @@ import XTerm from '~/components/xterm.vue'
 
 // const { data } = await useFetch('/api/versions')
 </script>
+
+<style lang="scss">
+#toolbar {
+    height: 100px;
+    background-color: #333;
+    color: #fff;
+}
+</style>

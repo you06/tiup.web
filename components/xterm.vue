@@ -9,6 +9,7 @@ import { Terminal } from '@xterm/xterm'
 // import { WebLinksAddon } from '@xterm/addon-web-links'
 
 const KEY_CODES: { [key: number]: string } = {
+    3: 'Ctrl+C',
     13: 'Enter',
     127: 'Backspace',
 }
@@ -17,14 +18,21 @@ onMounted(async () => {
     const { FitAddon } = await import('@xterm/addon-fit')
     const { WebLinksAddon } = await import('@xterm/addon-web-links')
 
-    const term = new Terminal()
+    const term = new Terminal({
+        cursorBlink: true,
+    })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
     term.loadAddon(new WebLinksAddon())
 
     const container = document.getElementById('terminal-container')
     term.open(container!)
-    fitAddon.fit()
+
+    function resize() {
+        fitAddon.fit()
+    }
+    resize()
+    window.addEventListener('resize', resize, false)
 
     const sessionResp = await fetch('/api/sql/bootstrap', {
         method: 'POST',
@@ -72,6 +80,11 @@ onMounted(async () => {
         if (pendingResp) return
         const code = key.key.charCodeAt(0)
         switch (code) {
+            case 3: // Ctrl+C
+                console.log('Ctrl+C pressed')
+                term.write('\r\nmysql> ')
+                pendingData = ''
+                break
             case 13: // Enter key
                 console.log('Enter key pressed')
                 term.write('\r\n')
